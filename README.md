@@ -1,5 +1,7 @@
 # Learning React Redux
 
+![My Image](ReactRedux.gif)
+
 ## React-Redux package
 
     React - UI library
