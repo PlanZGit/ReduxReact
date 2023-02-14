@@ -69,3 +69,18 @@ Before we create our store, we combine our reducers:
       iceCream: iceCreamReducer,
     });
     const store = createStore(rootReducer); //Hold app state
+
+### Subscribe & Dispatch
+
+Subscribe , Unsubscribe :
+
+    const unsubscribe = store.subscribe(() =>
+      console.log("Updated state", store.getState())
+    ); //Subscribe
+
+    unsubscribe(); //Unsubscibe
+
+Disptach :
+
+    store.dispatch(buyCake());
+    store.dispatch(buyIceCream());
