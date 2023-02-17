@@ -114,3 +114,12 @@ Summary:
   you define the mapStateToProps function. It gets the Redux state as a parameter which can be used to retrieve the appropriate state properties in our case we map state.numOfCakes to a prop call numOfCakes. Which we render in our JSX.
 - mapDispatchToProps : this function gets the dispatch method as a parameter and allow us to map action creator to props in our component
 - all of this is possible by using the connect function from react-redux, the connect function connects a react component to the redux store
+
+## React Redux + Hooks
+
+- React pattern
+- Action creators, reducers, provide the store and connect the components
+- Components can access state and dispatch actions
+- React Hooks
+- React Readux v7.1 , Hooks has been added
+- Subscribe to store and dispatch actions without connect()
