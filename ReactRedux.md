@@ -123,3 +123,11 @@ Summary:
 - React Hooks
 - React Readux v7.1 , Hooks has been added
 - Subscribe to store and dispatch actions without connect()
+
+_HookCakeContainer.js_
+
+    import { useSelector, useDispatch } from "react-redux";
+    import { buyCake } from "../redux";
+
+    const numOfCakes = useSelector((state) => state.numOfCakes);
+    const dispatch = useDispatch();
