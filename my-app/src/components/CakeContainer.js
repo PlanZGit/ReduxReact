@@ -5,6 +5,7 @@ import { buyCake } from "../redux";
 function CakeContainer(props) {
   return (
     <div>
+      CakeContainer
       <h2>Number of cakes : {props.numOfCakes}</h2>
       <button onClick={props.buyCake}>Buy Cake</button>
     </div>
