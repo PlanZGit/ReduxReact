@@ -131,3 +131,35 @@ _HookCakeContainer.js_
 
     const numOfCakes = useSelector((state) => state.numOfCakes);
     const dispatch = useDispatch();
+
+# Multiple Reducer
+
+Create rootReducer.js in redux folder.
+Use the combineReducers from redux.
+
+_rootReducer.js_
+
+    import { combineReducers } from "redux";
+    import cakeReducer from "./cake/cakeReducer";
+    import iceCreamReducer from "./iceCream/iceCreamReducer";
+
+    export const rootReducer = combineReducers({
+      cake: cakeReducer,
+      iceCream: iceCreamReducer,
+    });
+
+When mapping to component, add the obj name
+
+    // Redux store is mapped to our component
+    const mapStateToProps = (state) => {
+      return {
+        numOfIceCream: state.iceCream.numOfIceCream,
+      };
+    };
+
+IMPORTANT : Export all Action Creator to redux store
+
+_index.js_
+
+    export { buyCake } from "./cake/cakeActions";
+    export { buyIceCream } from "./iceCream/iceCreamActions";
