@@ -163,3 +163,81 @@ _index.js_
 
     export { buyCake } from "./cake/cakeActions";
     export { buyIceCream } from "./iceCream/iceCreamActions";
+
+# Middleware
+
+## Setup redux-logger
+
+npm install redux-loggor
+
+    import { createStore, applyMiddleware } from "redux";
+    import logger from "redux-logger";
+    import { rootReducer } from "./rootReducer";
+
+    const store = createStore(rootReducer, applyMiddleware(logger));
+
+    export default store;
+
+## Setup redux-devtools
+
+https://github.com/zalmoxisus/redux-devtools-extension
+
+Move to 1.3 Use redux-devtools-extension package from npm
+npm install --save redux-devtools-extension
+
+- inspect broswer
+- go to redux tab
+
+      import { createStore, applyMiddleware } from "redux";
+      import logger from "redux-logger";
+      import { composeWithDevTools } from "redux-devtools-extension";
+      import { rootReducer } from "./rootReducer";
+
+      const store = createStore(
+        rootReducer,
+        composeWithDevTools(applyMiddleware(logger))
+      );
+
+      export default store;
+
+# Action payload
+
+Config component by adding useState for number.
+Then add input for userInput for payload.
+Then change button onClick to a function call to buyCake passing number as argument. Fix mapDispatchToProps.
+
+_NewCakeContainer.js_
+
+    //useState
+    const [number, setNumber] = useState(1);
+
+    //UserInput
+    <input type="text" value={number}
+    onChange={(e) => { setNumber(e.target.value); }}/>
+
+    // map our action creator to our prop
+    const mapDispatchToProps = (dispatch) => {
+      return {
+        buyCake: (number) => dispatch(buyCake(number)),
+      };
+    };
+
+Add in number parameter, payload, and set number to default value 1
+
+_cakeActions.js_
+
+    import { BUY_CAKE } from "./cakeTypes";
+
+    export const buyCake = (number = 1) => {
+      return {
+        type: BUY_CAKE,
+        payload: number,
+      };
+    };
+
+Add in action.payload
+
+_cakeReducer.js_
+
+    case BUY_CAKE:
+      return { ...state, numOfCakes: state.numOfCakes - action.payload };
