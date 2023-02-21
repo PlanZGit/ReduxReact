@@ -241,3 +241,163 @@ _cakeReducer.js_
 
     case BUY_CAKE:
       return { ...state, numOfCakes: state.numOfCakes - action.payload };
+
+# Asycnc Actions with React
+
+Synchronous Actions
+
+- As soon as an Action was dipatched, the state was immediately updated.
+- If you dispatch the BUY_CAKE action, the numOfCakes was right away decrementented by 1.
+- Same with BUY_ICECREAM action as well.
+
+Async Actions
+
+- wait for a task to compelete before dispatching your action
+- Asynchronous API calls to fetch data from an end point and use that data in your application.
+
+## Our Application
+
+- Fetches a list of users from an API end point and stores it in redux store.
+- State ? Actions ? Reducer ?
+
+State :
+
+    state = {
+      loading : true,
+      data : [],
+      error: ""
+    }
+
+    loading - Display a loading spinner in your application
+    data - List of users
+    error - Display error to the user
+
+Actions :
+
+    FETCH_USERS_REQUEST - Fetch list of users
+    FETCH_USERS_SUCCESS - Fetched successfully
+    FETCH_USERS_FAILURE - Error fecthing the data
+
+Reducers:
+
+    case: FETCH_USERS_REQUEST
+    loading: true
+
+    case: FETCH_USERS_SUCCESS
+    loading: false
+    users: data (from API)
+
+    case: FETCG_USERS_FAILURE
+    loading: false
+    error: error (from API)
+
+After creating action (userTypes), action creator(userActions), reducer (userReducer)
+
+- export all user actions in redux index.js
+
+      export * from "./user/userActions";
+
+- import userReducer to rootReducer.js in our combineReducers
+
+      import userReducer from "./user/userReducer";
+
+      export const rootReducer = combineReducers({
+        cake: cakeReducer,
+        iceCream: iceCreamReducer,
+        user: userReducer,
+      });
+
+The code is finished for action,state,reducer. Check redux/user folder
+
+1. What is left now is to use Async action to make API call.
+2. Dispatch actions we have define.
+3. Render list of users in the browser.
+
+## Redux Thunk Get Request
+
+Learn to make a get request to a API endpoint and display the fetched data
+
+1.  Setup user component , action , reducer
+2.  Two Packages we need to install are :
+
+    - axios - make request to API,
+    - redux thunk - allow us to define asynchronous action creator
+
+           npm install axios redux-thunk
+
+3.  Apply redux-thunk Middleware
+
+        const store = createStore(
+          rootReducer,
+          composeWithDevTools(applyMiddleware(logger, thunk))
+        );
+
+4.  create fetchUser function in _userActions.js_, use axios to make request
+
+        //making use of thunk middleware, fetchUser will instead return another function
+        export const fetchUsers = () => {
+          return (dispatch) => {
+            axios
+              .get("https://jsonplaceholder.typicode.com/users")
+              .then((response) => {
+                const users = response.data;
+                dispatch(fetchUserSuccess(users));
+              })
+              .catch((error) => {
+                const errorMsg = error.message;
+                dispatch(fetchUserFailure(errorMsg));
+              });
+          };
+        };
+
+5.  Configure UserContainer Component
+
+    - import useEffect, connect , fetchUsers
+    - mapStateToProps , mapDispatchToProps
+
+    _UserContiner.js_
+
+        import React, { useEffect } from "react";
+        import { connect } from "react-redux";
+        import { fetchUsers } from "../redux";
+
+        function UserContiner({ userData, fetchUsers }) {
+          useEffect(() => {
+            fetchUsers();
+          }, []);
+
+          return userData.loading ? (
+            <h2>Loading</h2>
+          ) : userData.error ? (
+            <h2>{userData.error}</h2>
+          ) : (
+            <div>
+              <h2>User List</h2>
+              <div>
+                {userData &&
+                  userData.users &&
+                  userData.users.map((user) => <p>{user.name}</p>)
+                }
+              </div>
+            </div>
+          );
+        }
+
+        const mapStateToProps = (state) => {
+          return {
+            userData: state.user,
+          };
+        };
+
+        const mapDipatchToProps = (dispatch) => {
+          return {
+            fetchUsers: () => dispatch(fetchUsers()),
+          };
+        };
+
+        export default connect(mapStateToProps, mapDipatchToProps)(UserContiner);
+
+# Checkout
+
+- Redux Axios middleware
+- Redux persist NPM
