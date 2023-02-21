@@ -103,10 +103,14 @@ Disptach :
 
 ## Asycnc Actions
 
-Async Actions - Asynchronous API calls to fetch data from an end point and use that data in your application.
+Async Actions
 
-Our Application - Fetches a list of users from an API end point and stores it in the redux store.
-State? Actions? Reducer?
+- Asynchronous API calls to fetch data from an end point and use that data in your application.
+
+Our Application
+
+- Fetches a list of users from an API end point and stores it in the redux store.
+- State? Actions? Reducer?
 
 State:
 
